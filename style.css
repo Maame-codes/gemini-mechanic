@@ -1,0 +1,601 @@
+/* ==========================================================================
+   1. VARIABLES & RESET
+   ========================================================================== */
+:root {
+  --bg-deep: #0a0b0f;
+  --bg-surface: #12131a;
+  --bg-card: #1a1b25;
+  --bg-elevated: #22232f;
+  --accent: #00e5a0;
+  --accent-dim: #00e5a020;
+  --accent-mid: #00e5a050;
+  --accent-glow: #00e5a0aa;
+  --danger: #ff4d6a;
+  --warning: #ffb547;
+  --info: #47b3ff;
+  --text-primary: #f0f0f5;
+  --text-secondary: #8a8b9e;
+  --text-dim: #55566a;
+  --border: #2a2b3a;
+  --border-light: #33344a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Outfit", sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* === AMBIENT BACKGROUND === */
+body::before {
+  content: "";
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(ellipse at 20% 50%, #00e5a008 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, #47b3ff05 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, #ff4d6a05 0%, transparent 50%);
+  animation: ambientShift 20s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes ambientShift {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(-2%, 1%) rotate(1deg);
+  }
+  66% {
+    transform: translate(1%, -1%) rotate(-1deg);
+  }
+}
+
+/* === GLOBAL GRID OVERLAY === */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.04;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   2. DESKTOP LAYOUT (GRID)
+   ========================================================================== */
+.app {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  grid-template-rows: 64px 1fr;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.topbar {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-surface);
+  backdrop-filter: blur(20px);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-text {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.5px;
+}
+.logo-text span {
+  color: var(--accent);
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.status-pill.live {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid var(--accent-mid);
+}
+.status-pill.live::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+/* ==========================================================================
+   3. CAMERA SECTION & HUD
+   ========================================================================== */
+.camera-section {
+  position: relative;
+  background: #000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.camera-feed {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
+}
+
+.scan-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.scan-corner {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-color: var(--accent);
+  border-style: solid;
+  border-width: 0;
+  opacity: 0.7;
+}
+.scan-corner.tl {
+  top: 30px;
+  left: 30px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+  border-radius: 4px 0 0 0;
+}
+.scan-corner.tr {
+  top: 30px;
+  right: 30px;
+  border-top-width: 2px;
+  border-right-width: 2px;
+  border-radius: 0 4px 0 0;
+}
+.scan-corner.bl {
+  bottom: 30px;
+  left: 30px;
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+  border-radius: 0 0 0 4px;
+}
+.scan-corner.br {
+  bottom: 30px;
+  right: 30px;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+  border-radius: 0 0 4px 0;
+}
+
+.scan-line {
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-glow),
+    transparent
+  );
+  animation: scanMove 4s ease-in-out infinite;
+}
+
+@keyframes scanMove {
+  0% {
+    top: 30px;
+    opacity: 0;
+  }
+  10%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: calc(100% - 30px);
+    opacity: 0;
+  }
+}
+
+.camera-hud {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 24px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+#diagnosis-card {
+  display: none;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 20px;
+  max-width: 500px;
+  backdrop-filter: blur(20px);
+  position: relative;
+  z-index: 10;
+}
+
+.diagnosis-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.diagnosis-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--warning);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.diagnosis-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+.diagnosis-subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.diagnosis-body {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  padding-left: 42px;
+}
+
+.close-card {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.camera-controls {
+  display: flex;
+  gap: 12px;
+}
+.cam-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.cam-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   4. PROGRESS BAR
+   ========================================================================== */
+.progress-container {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.progress-track {
+  height: 6px;
+  background: var(--bg-elevated);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--info));
+  box-shadow: 0 0 10px var(--accent-glow);
+  transition: width 0.3s ease;
+}
+.progress-percentage {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: var(--accent);
+  text-align: right;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   5. CHAT PANEL & ALIGNMENT
+   ========================================================================== */
+.side-panel {
+  background: var(--bg-surface);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.chat-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* REMOVE ALL AVATARS & ALIGN LEFT */
+.chat-avatar.ai,
+.chat-avatar.user {
+  display: none !important;
+}
+
+.chat-msg {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Aligns both AI and User text to the left */
+  width: 100%;
+}
+
+.chat-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.chat-bubble {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px 14px 14px 14px;
+  padding: 16px 20px;
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  text-align: left;
+  max-width: 95%;
+  margin-left: 0;
+}
+
+.chat-msg.user .chat-bubble {
+  background: var(--bg-elevated);
+  border-radius: 14px 4px 14px 14px;
+}
+.chat-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+/* Typing Indicator */
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: 8px 0;
+}
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: dotFade 1.4s infinite;
+}
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+@keyframes dotFade {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* ==========================================================================
+   6. INPUT AREA & ZOOM FIX
+   ========================================================================== */
+.input-area {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+.voice-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+
+/* iOS ZOOM PREVENTION */
+.text-input-field {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: 16px !important;
+  padding: 0 12px;
+}
+
+.mic-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: var(--bg-deep);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mic-btn.listening {
+  animation: micPulse 1.5s ease-in-out infinite;
+}
+@keyframes micPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 var(--accent-mid);
+  }
+  50% {
+    box-shadow: 0 0 0 12px var(--accent-dim);
+  }
+}
+.send-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.send-btn:hover {
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   7. THE "ONE-SCREEN" MOBILE FIX
+   ========================================================================== */
+@media (max-width: 768px) {
+  .app {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  /* FORCED HEADER */
+  .topbar {
+    display: flex !important;
+    height: 60px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 100;
+    padding: 0 15px;
+  }
+
+  .camera-section {
+    flex: 0 0 30dvh;
+    position: relative;
+    min-height: 180px;
+    background: #000;
+  }
+  .side-panel {
+    flex: 1;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    background: var(--bg-surface);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .chat-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    gap: 15px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .diagnosis-card {
+    position: absolute;
+    bottom: 65px;
+    width: 94%;
+    left: 3%;
+    max-height: 140px;
+    padding: 10px;
+    font-size: 12px;
+    z-index: 10;
+  }
+  .camera-hud {
+    padding: 5px;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  .input-area {
+    flex-shrink: 0;
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+    border-top: 1px solid var(--border);
+  }
+  .voice-input {
+    padding: 8px 12px;
+  }
+  .cam-btn,
+  .mic-btn {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+}

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <title>Gemini Mechanic — AI Repair Technician</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="logo">
+          <i class="fa-solid fa-microchip"></i>
+          <div class="logo-text">Gemini<span>Mechanic</span></div>
+        </div>
+        <div class="topbar-status">
+          <div class="status-pill live">Live Session</div>
+        </div>
+      </header>
+
+      <main class="camera-section">
+        <video id="webcam" autoplay playsinline class="camera-feed"></video>
+        <canvas id="photoCanvas" style="display: none"></canvas>
+
+        <div class="scan-overlay">
+          <div class="scan-corner tl"></div>
+          <div class="scan-corner tr"></div>
+          <div class="scan-corner bl"></div>
+          <div class="scan-corner br"></div>
+          <div class="scan-line"></div>
+        </div>
+
+        <div class="camera-hud">
+          <div class="camera-controls">
+            <button class="cam-btn" id="flip-btn" title="Flip Camera">
+              <i class="fa-solid fa-camera-rotate"></i>
+            </button>
+            <button class="cam-btn" id="capture-btn" title="Run Analysis">
+              <i class="fa-solid fa-camera"></i>
+            </button>
+          </div>
+        </div>
+      </main>
+
+      <aside class="side-panel">
+        <div class="chat-area" id="chat-area">
+          <div class="chat-msg">
+            <div class="chat-content">
+              <div class="chat-name">Gemini Mechanic</div>
+              <div class="chat-bubble">Start by scanning an item</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-area">
+          <div class="voice-input active">
+            <button class="mic-btn" id="mic-btn" title="Voice Input">
+              <i class="fa-solid fa-microphone"></i>
+            </button>
+
+            <input
+              type="text"
+              id="user-input"
+              class="text-input-field"
+              placeholder="Ask Gemini Mechanic..."
+              autocomplete="off"
+            />
+
+            <button class="send-btn" id="send-btn">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <script src="/static/script.js"></script>
+  </body>
+</html>
