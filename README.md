@@ -8,6 +8,8 @@
 
 ### 🚀 [Try the Live Demo Here](https://gemini-mechanic-16378601646.us-central1.run.app/)
 
+![image](https://github.com/user-attachments/assets/979d455b-6789-4842-9943-717abaf47000)
+
 ---
 
 ## ✨ Key Features
