@@ -36,5 +36,5 @@
 This project is **Open Source** and distributed under the **MIT License**. Contributions are welcome to help expand the diagnostic capabilities for a wider range of hardware devices.
 
 ---
-**Developed with ❤️ by [Maame](https://dev.to/maame-codes)
-  for the MLH "Built with Google Gemini" Challenge.**
+**Developed with ❤️ by Maame
+
