@@ -8,8 +8,11 @@
 
 ### [Try the Live Demo Here](https://gemini-mechanic-16378601646.us-central1.run.app/)
 
-![image](https://github.com/user-attachments/assets/979d455b-6789-4842-9943-717abaf47000)
-
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=MoteAUXxGWg">
+    <img src="https://img.youtube.com/vi/MoteAUXxGWg/maxresdefault.jpg" alt="Watch the video" style="width:100%; max-width:600px;">
+  </a>
+</div>
 ---
 
 ## Key Features
