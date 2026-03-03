@@ -1,4 +1,4 @@
-# 🛠️ Gemini Mechanic — AI Hardware Repair Technician
+# Gemini Mechanic — AI Hardware Repair Technician
 
 [![Open Source](https://img.shields.io/badge/Open%20Source-%E2%9D%A4-brightgreen)](https://opensource.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -6,13 +6,13 @@
 
 **Gemini Mechanic** is an open-source, AI-powered diagnostic tool designed to help users identify and repair hardware issues using real-time computer vision. By leveraging **Google Gemini 3 Flash**, the application analyzes live camera feeds to provide instant repair steps, estimated costs, and required parts.
 
-### 🚀 [Try the Live Demo Here](https://gemini-mechanic-16378601646.us-central1.run.app/)
+### [Try the Live Demo Here](https://gemini-mechanic-16378601646.us-central1.run.app/)
 
 ![image](https://github.com/user-attachments/assets/979d455b-6789-4842-9943-717abaf47000)
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 * **Visual Hardware Analysis**: Capture images of broken electronics for immediate AI-driven identification and troubleshooting.
 * **Real-time Voice Interface**: Integrated Speech-to-Text allows for hands-free diagnostic queries while working on hardware.
@@ -22,7 +22,7 @@
 
 
 
-## 🏗️ Tech Stack
+## Tech Stack
 
 * **AI Core**: Google Gemini 3 Flash (`gemini-3-flash-preview`)
 * **Backend**: Python, FastAPI, Uvicorn, HTTPX
@@ -31,7 +31,7 @@
 
 
 
-## 📜 Open Source & License
+## Open Source & License
 
 This project is **Open Source** and distributed under the **MIT License**. Contributions are welcome to help expand the diagnostic capabilities for a wider range of hardware devices.
 
